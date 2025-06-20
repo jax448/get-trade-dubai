@@ -401,9 +401,8 @@ function WithdrawForm() {
     <div>
       <div className=" flex items-center justify-between flex-wrap gap-4 lg:my-[2rem] my-[1rem]">
         <h5 className=" text-[#D9D9D9]  ">
-          Withdraw from Get. Trading wallet to your selected wallet. Please keep
-          a balance of 0.0025SOL + priority fee for the withdraw to be
-          successful.
+          Withdraw from GetTrading wallet to your selected wallet. Please keep a
+          balance of 0.0025SOL + priority fee for the withdraw to be successful.
         </h5>
         <div
           onClick={() => setSwap(!swap)}
