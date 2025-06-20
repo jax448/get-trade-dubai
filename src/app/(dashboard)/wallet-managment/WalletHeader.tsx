@@ -9,7 +9,7 @@ const WalletHeader = () => {
 
   const navItems = [
     { href: "/wallet-managment", label: "My Wallet" },
-    // { href: "/wallet-managment/deposit", label: "Deposit" },
+    { href: "/wallet-managment/deposit", label: "Deposit" },
     { href: "/wallet-managment/withdraw", label: "Withdraw" },
     // { href: "/wallet-managment/archived", label: "Archived Wallet" },
   ];
