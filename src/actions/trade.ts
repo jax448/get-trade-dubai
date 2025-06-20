@@ -10,7 +10,7 @@ export async function executeTrade(apikey: string, tradeData: TradeData) {
   try {
     const result = await AccountsService.getUserName(apikey);
     if (!result.data) {
-      throw new Error("Unable to retrieve username from get.trade.");
+      throw new Error("Unable to retrieve username from GetTrade.");
     }
 
     const EncryptionServie = new EncryptionService();
