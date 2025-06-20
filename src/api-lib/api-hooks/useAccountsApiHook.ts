@@ -5,7 +5,7 @@ import type {
   SwapDataAfterTradeType,
   ConditionalTradeType,
 } from "@/types/apiTypes";
-// import { TrendingTimeInteval } from "@/trade-functions/types";
+import { TrendingTimeInteval } from "@/trade-functions/types";
 
 // Hook for connecting wallet
 export function useConnectWallet(walletString: string) {
@@ -156,11 +156,15 @@ export function useGetPublicTokenData(key: string, urlstring: string) {
   });
 }
 
-export function useGetTrendingTokenData(key: string, urlstring: string) {
+export function useGetTrendingTokenData(
+  key: string,
+  urlstring: string,
+  timeIntervale: TrendingTimeInteval
+) {
   return useQuery({
     queryKey: ["publicTrendingTokenData"],
     queryFn: async () =>
-      await AccountsService.getTrendingTokenData(key, urlstring),
+      await AccountsService.getTrendingTokenData(key, urlstring, timeIntervale),
     refetchInterval: 1000, // ⏳ Poll every 2 seconds
     refetchIntervalInBackground: true,
 

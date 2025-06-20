@@ -38,11 +38,12 @@ type SortableField =
   | "holders"
   | "price"
   // Add more fields as needed
-  | "percent1m"
-  | "percent5m"
   | "percent1h"
-  | "percent6h"
-  | "percent24h";
+  | "percent2h"
+  | "percent4h"
+  | "percent8h"
+  | "percent24h"
+  | "percent30m";
 
 function Page() {
   const router = useRouter();
@@ -114,13 +115,10 @@ function Page() {
       if (percentageFields.includes(sortField)) {
         // Extract numeric values from formatted percentage strings
         const aPercentStr =
-          a.buySell_Percentages[
-            sortField as keyof typeof a.buySell_Percentages
-          ];
+          a.buySellPercentages[sortField as keyof typeof a.buySellPercentages];
         const bPercentStr =
-          b.buySell_Percentages[
-            sortField as keyof typeof b.buySell_Percentages
-          ];
+          b.buySellPercentages[sortField as keyof typeof b.buySellPercentages];
+
         // Extract only numeric values, ignoring B/S prefix
         const aValue = parseFloat(
           aPercentStr.replace(/^[BS]:/, "").replace("%", "")
@@ -128,12 +126,13 @@ function Page() {
         const bValue = parseFloat(
           bPercentStr.replace(/^[BS]:/, "").replace("%", "")
         );
+
         // Sort just based on numeric value, ignoring B/S prefix
         return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
       } else {
         // Regular fields in t object
-        const aValue = a[sortField as keyof typeof a];
-        const bValue = b[sortField as keyof typeof b];
+        const aValue = a.t[sortField as keyof typeof a.t];
+        const bValue = b.t[sortField as keyof typeof b.t];
 
         if (typeof aValue === "number" && typeof bValue === "number") {
           return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
@@ -150,81 +149,37 @@ function Page() {
 
   const renderSkeletonRows = useCallback((count = 5) => {
     return Array.from({ length: count }).map((_, index) => (
-      <React.Fragment key={`skeleton-${index}`}>
-        <TableRow className="cursor-pointer hover:bg-[#1E1E1E] bg-[#F1F2FF0D] border-b-[#FFFFFF1A] font-semibold text-[clamp(8px,1.5vw,14px)] leading-[clamp(12px,3vw,18px)] tracking-[0%] h-[clamp(36px,6vw,90px)]">
-          {/* Favorite Column */}
-          <TableCell className="w-[clamp(40px,6vw,60px)] text-center sticky-col first-col">
-            <div className="w-full flex md:flex-row flex-col items-center justify-center gap-2">
-              <Skeleton className="h-[20px] w-[20px] rounded-full" />
-              <Skeleton className="h-[20px] w-[20px] rounded-full" />
+      <TableRow
+        key={`skeleton-${index}`}
+        className="h-[clamp(36px,6vw,90px)] hover:bg-transparent bg-transparent"
+      >
+        <TableCell className="text-center">
+          <div className="flex justify-center gap-2">
+            <Skeleton className="h-[20px] w-[20px]" />
+            <Skeleton className="h-[20px] w-[20px]" />
+          </div>
+        </TableCell>
+        <TableCell className="text-center">
+          <div className="flex items-center justify-center gap-2">
+            <Skeleton className="rounded-full w-[32px] h-[32px]" />
+            <div className="flex flex-col text-left gap-1">
+              <Skeleton className="w-[40px] h-[12px]" />
+              <Skeleton className="w-[30px] h-[10px]" />
             </div>
-          </TableCell>
-
-          {/* Token Info Column */}
-          <TableCell className="w-[clamp(80px,12vw,120px)]">
-            <div className="flex items-center justify-start gap-3">
-              <Skeleton className="rounded-full w-[clamp(28px,3vw,40px)] h-[clamp(28px,3vw,40px)]" />
-              <div className="flex flex-col justify-start items-start py-[2px] gap-1.5">
-                <Skeleton className="w-[40px] h-[12px]" />
-                <div className="flex items-center justify-start gap-1.5">
-                  <Skeleton className="w-[12px] h-[12px] rounded-full" />
-                  <Skeleton className="w-[12px] h-[12px] rounded-full" />
-                  <Skeleton className="w-[12px] h-[12px] rounded-full" />
-                </div>
-              </div>
-            </div>
-          </TableCell>
-
-          {/* Time Ago Cell */}
-          <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-            <Skeleton className="mx-auto h-[14px] w-[50px]" />
-          </TableCell>
-
-          {/* Liquidity Cell */}
-          <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
+          </div>
+        </TableCell>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <TableCell key={i} className="text-center">
             <Skeleton className="mx-auto h-[14px] w-[70px]" />
           </TableCell>
+        ))}
 
-          {/* Market Cap Cell */}
-          <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-            <Skeleton className="mx-auto h-[14px] w-[70px]" />
-          </TableCell>
-
-          {/* Volume Cells with Percentage (30m, 1h, 2h, 4h, 8h, 24h) */}
-          {Array.from({ length: 6 }).map((_, i) => (
-            <TableCell
-              key={i}
-              className="w-[clamp(60px,12vw,120px)] text-center"
-            >
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Skeleton className="h-[14px] w-[30px] mr-1" />
-              </div>
-              <Skeleton className="mx-auto h-[14px] w-[50px]" />
-            </TableCell>
-          ))}
-
-          {/* Holders Cell */}
-          <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-            <Skeleton className="mx-auto h-[14px] w-[50px]" />
-          </TableCell>
-
-          {/* Price Cell */}
-          <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-            <Skeleton className="mx-auto h-[14px] w-[70px]" />
-          </TableCell>
-
-          {/* Portfolio Cell */}
-          <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-            <Skeleton className="mx-auto h-[14px] w-[40px]" />
-          </TableCell>
-
-          {/* Quick Buy Button Cell */}
-          <TableCell className="w-[clamp(40px,12vw,100px)] text-center end-col sticky-col">
-            <Skeleton className="mx-auto md:h-[clamp(25px,4vw,30px)] md:w-[clamp(25px,10vw,80px)] h-[22px] w-[22px] md:rounded-md rounded-full " />
-          </TableCell>
-        </TableRow>
-        <TableRow className="border-none bg-transparent h-[0.4rem] w-full" />
-      </React.Fragment>
+        <TableCell className="text-center">
+          <div className="flex gap-2 justify-center">
+            <Skeleton className="h-[20px] w-[20px] rounded" />
+          </div>
+        </TableCell>
+      </TableRow>
     ));
   }, []);
 
@@ -255,17 +210,19 @@ function Page() {
           ) : (
             sortedData?.map((crypto, idx) => {
               return (
-                <React.Fragment key={crypto.name + idx}>
+                <React.Fragment key={crypto.t.name + idx}>
                   <TableRow
-                    onClick={() => router.push(`/trade/${crypto.tokenAddress}`)}
-                    key={crypto.tokenAddress}
-                    className={`cursor-pointer hover:bg-[#F1F2FF0D]    bg-[#F1F2FF0D]    border-b-[#FFFFFF1A]    font-semibold    text-[clamp(8px,1.5vw,14px)]    leading-[clamp(12px,3vw,18px)]    tracking-[0%]    h-[clamp(36px,6vw,90px)]              `}
+                    onClick={() =>
+                      router.push(`/trade/${crypto.t.tokenAddress}`)
+                    }
+                    key={crypto.t.tokenAddress}
+                    className={`cursor-pointer hover:bg-[#1E1E1E]    bg-[#F1F2FF0D]    border-b-[#FFFFFF1A]    font-semibold    text-[clamp(8px,1.5vw,14px)]    leading-[clamp(12px,3vw,18px)]    tracking-[0%]    h-[clamp(36px,6vw,90px)]              `}
                   >
                     <TableCell className="w-[clamp(40px,6vw,60px)] text-center sticky-col first-col">
                       <div className="w-full  flex md:flex-row flex-col items-center justify-center gap-1 ">
                         {
                           <DashBoardTableImages
-                            tokenAddress={crypto.tokenAddress}
+                            tokenAddress={crypto.t.tokenAddress}
                             favourite={crypto.favourite}
                           />
                         }
@@ -275,7 +232,7 @@ function Page() {
                       <div className="flex  items-center justify-start gap-3  ">
                         <div className=" relative w-[clamp(28px,3vw,40px)] min-w-[clamp(28px,3vw,40px)] h-[clamp(28px,3vw,40px)]  ">
                           <Image
-                            src={crypto.image || TokenIcon}
+                            src={crypto.t.image || TokenIcon}
                             fill
                             alt=" "
                             className=" rounded-full   "
@@ -292,11 +249,11 @@ function Page() {
                         <div className=" flex flex-col justify-start items-start py-[2px]  gap-1.5 ">
                           <div className=" flex items-center space-x-3 ">
                             <span className=" truncate leading-[clamp(10px,3vw,10px)] ">
-                              {crypto?.symbol
-                                ? crypto.symbol.split(" ")[0]
-                                : crypto?.symbol}
+                              {crypto.t?.symbol
+                                ? crypto.t.symbol.split(" ")[0]
+                                : crypto.t?.symbol}
                             </span>
-                            {crypto.source === "pump_dot_fun" && (
+                            {crypto.t.source === "pump_dot_fun" && (
                               <Image
                                 src={PumpFunLogo}
                                 alt=""
@@ -306,10 +263,10 @@ function Page() {
                           </div>
                           {/* <div className="flex items-center justify-start  space-x-1  text-[10px] leading-[clamp(10px,3vw,12px)] tracking-[-2%] ">
                             <TokenStringShortener
-                              originalString={crypto.tokenAddress}
+                              originalString={crypto.t.tokenAddress}
                             />
                             <CopyButton
-                              text={crypto.tokenAddress}
+                              text={crypto.t.tokenAddress}
                               className="!px-[clamp(2px,4vw,4px)] !py-[clamp(2px,4vw,2px)] rounded-[2px] bg-transparent"
                             >
                               <div className="relative w-[clamp(10px,2vw,12px)] h-[clamp(10px,2vw,12px)]">
@@ -325,8 +282,8 @@ function Page() {
                           {/* Social Links Container */}
                           <div className=" flex items-center justify-start gap-1.5 ">
                             {/* X/Twitter Button */}
-                            {crypto.links.twitter && (
-                              <Link href={crypto.links.twitter} className="">
+                            {crypto.t.links.twitter && (
+                              <Link href={crypto.t.links.twitter} className="">
                                 <div className="w-[clamp(6px,2.5vw,16px)] h-[clamp(6px,2.5vw,16px)] relative">
                                   <Image
                                     src={x}
@@ -340,8 +297,8 @@ function Page() {
                             )}
 
                             {/* Telegram Link */}
-                            {crypto.links.telegram && (
-                              <Link href={crypto.links.telegram} className="">
+                            {crypto.t.links.telegram && (
+                              <Link href={crypto.t.links.telegram} className="">
                                 <div className="w-[clamp(6px,2.5vw,16px)] h-[clamp(6px,2.5vw,16px)] relative">
                                   <Image
                                     src={telegram}
@@ -355,8 +312,8 @@ function Page() {
                             )}
 
                             {/* Globe Link */}
-                            {crypto.links.website && (
-                              <Link href={crypto.links.website} className="">
+                            {crypto.t.links.website && (
+                              <Link href={crypto.t.links.website} className="">
                                 <div className="w-[clamp(6px,2.5vw,16px)] h-[clamp(6px,2.5vw,16px)] relative">
                                   <Image
                                     src={globe}
@@ -373,13 +330,13 @@ function Page() {
                       </div>
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-                      <TimeAgoCell dateTime={crypto.dateTime} />
+                      <TimeAgoCell dateTime={crypto.t.dateTime} />
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-                      ${formatNumber(crypto.liquidity)}
+                      ${formatNumber(crypto.t.liquidity)}
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-                      ${formatNumber(crypto.marketCap)}
+                      ${formatNumber(crypto.t.marketCap)}
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
                       <div
@@ -390,18 +347,18 @@ function Page() {
                       >
                         <div
                           className={`${
-                            crypto.buySell_Percentages.percent1m.match("B")
+                            crypto.buySellPercentages.percent30m.match("B")
                               ? "text-[#00FFA3]"
                               : "text-[#E1414A]"
                           }`}
                         >
-                          {crypto.buySell_Percentages.percent1m}
+                          {crypto.buySellPercentages.percent30m}
                         </div>
 
                         {/* {(() => {
                           // Get buy and sell volumes
-                          const buyVolume = Number(crypto.volBuy30mUsd);
-                          const sellVolume = Number(crypto.volSell30mUsd);
+                          const buyVolume = Number(crypto.t.volBuy30mUsd);
+                          const sellVolume = Number(crypto.t.volSell30mUsd);
 
                           // Calculate total volume
                           const totalVolume = buyVolume + sellVolume;
@@ -428,7 +385,7 @@ function Page() {
                           );
                         })()} */}
                       </div>
-                      ${formatNumber(crypto.timeData.txvol1m)}
+                      ${formatNumber(crypto.t.vol30m)}
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
                       <div
@@ -439,15 +396,15 @@ function Page() {
                       >
                         <div
                           className={`${
-                            crypto.buySell_Percentages.percent5m.match("B")
+                            crypto.buySellPercentages.percent1h.match("B")
                               ? "text-[#00FFA3]"
                               : "text-[#E1414A]"
                           }`}
                         >
-                          {crypto.buySell_Percentages.percent1h}
+                          {crypto.buySellPercentages.percent1h}
                         </div>
                       </div>
-                      ${formatNumber(crypto.timeData.txvol5m)}
+                      ${formatNumber(crypto.t.vol1h)}
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
                       <div
@@ -458,15 +415,15 @@ function Page() {
                       >
                         <div
                           className={`${
-                            crypto.buySell_Percentages.percent1h.match("B")
+                            crypto.buySellPercentages.percent2h.match("B")
                               ? "text-[#00FFA3]"
                               : "text-[#E1414A]"
                           }`}
                         >
-                          {crypto.buySell_Percentages.percent1h}
+                          {crypto.buySellPercentages.percent2h}
                         </div>
                       </div>
-                      ${formatNumber(crypto.timeData.txvol1h)}
+                      ${formatNumber(crypto.t.vol2h)}
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
                       <div
@@ -477,15 +434,15 @@ function Page() {
                       >
                         <div
                           className={`${
-                            crypto.buySell_Percentages.percent6h.match("B")
+                            crypto.buySellPercentages.percent4h.match("B")
                               ? "text-[#00FFA3]"
                               : "text-[#E1414A]"
                           }`}
                         >
-                          {crypto.buySell_Percentages.percent6h}
+                          {crypto.buySellPercentages.percent4h}
                         </div>
                       </div>
-                      ${formatNumber(crypto.timeData.txvol6h)}
+                      ${formatNumber(crypto.t.vol4h)}
                     </TableCell>
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
                       <div
@@ -496,45 +453,43 @@ function Page() {
                       >
                         <div
                           className={`${
-                            crypto.buySell_Percentages.percent24h.match("B")
+                            crypto.buySellPercentages.percent8h.match("B")
                               ? "text-[#00FFA3]"
                               : "text-[#E1414A]"
                           }`}
                         >
-                          {crypto.buySell_Percentages.percent24h}
+                          {crypto.buySellPercentages.percent8h}
                         </div>
                       </div>
-                      ${formatNumber(crypto.timeData.txvol24h)}
+                      ${formatNumber(crypto.t.vol8h)}
+                    </TableCell>
+                    <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div
+                          className={`${
+                            crypto.buySellPercentages.percent8h.match("B")
+                              ? "text-[#00FFA3]"
+                              : "text-[#E1414A]"
+                          }`}
+                        >
+                          {crypto.buySellPercentages.percent8h}
+                        </div>
+                      </div>
+                      ${formatNumber(crypto.t.vol24h)}
+                    </TableCell>
+                    <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
+                      {crypto.t.holders}
                     </TableCell>
 
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <div
-                          className={`${
-                            crypto.buySell_Percentages.percent24h.match("B")
-                              ? "text-[#00FFA3]"
-                              : "text-[#E1414A]"
-                          }`}
-                        >
-                          {crypto.buySell_Percentages.percent24h}
-                        </div>
-                      </div>
-                      ${formatNumber(crypto.timeData.txvol24h)}
-                    </TableCell>
-
-                    <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-                      {crypto.holders}
-                    </TableCell>
-
-                    <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
-                      {crypto.price === null
+                      {crypto.t.price === null
                         ? 0
-                        : formatSmallNumber(crypto.price)}
+                        : formatSmallNumber(crypto.t.price)}
                     </TableCell>
                     {/* this one is for portfolio */}
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center">
@@ -543,7 +498,7 @@ function Page() {
                     {/* this one is for portfolio */}
                     <TableCell className="w-[clamp(60px,12vw,120px)] text-center end-col sticky-col ">
                       <MainTableQuickBuyButton
-                        tokenAddress={crypto.tokenAddress}
+                        tokenAddress={crypto.t.tokenAddress}
                       />
                     </TableCell>
                   </TableRow>

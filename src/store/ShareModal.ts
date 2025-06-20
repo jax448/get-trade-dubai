@@ -20,9 +20,9 @@ export const useShareModal = create<ShareModalState>((set) => ({
   isShareModalOpen: false,
   shareData: {
     text: "",
-    title: "Check out my Token on GetTrade.",
+    title: "Check out my Token on Get.Trade.",
     url: typeof window !== "undefined" ? window.location.href : "",
-    description: "Explore my assets and transactions on GetTrade.",
+    description: "Explore my assets and transactions on Get.Trade.",
     image: "",
   },
   toggleShareModal: () =>

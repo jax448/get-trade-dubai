@@ -15,7 +15,7 @@ import { TrendingTableStore } from "@/store/TrendingTableStore";
 // import { DashBoardTableStore } from "@/store/DashBoardTableStore";
 import SOLInputHeader from "./SOLInputHeader";
 import { memo } from "react";
-// import TimeIntervalButtons from "./TimeIntervalButtons";
+import TimeIntervalButtons from "./TimeIntervalButtons";
 import { usePathname } from "next/navigation";
 // import useFilterString from "../useFilterString";
 // import { useDebounce } from "use-debounce";
@@ -101,9 +101,9 @@ function DashboardSecondHeader() {
               New Pairs
             </Link>
           </div>
-          {/* <div className=" md:block hidden  ">
+          <div className=" md:block hidden  ">
             <TimeIntervalButtons />
-          </div> */}
+          </div>
           {/* <div className="flex items-center space-x-[clamp(0.1rem,0.8vw,0.5rem)]">
           <GetTradeLogo Logo={logo} />
           <span className="font-bold text-[clamp(14px,2.5vw,25px)] leading-[100%] tracking-[0%]">
@@ -182,9 +182,9 @@ function DashboardSecondHeader() {
         filteringStringObject: {filterString}
       </span> */}
       </div>
-      {/* <div className=" block md:hidden mx-auto ">
+      <div className=" block md:hidden mx-auto ">
         <TimeIntervalButtons />
-      </div> */}
+      </div>
     </>
   );
 }

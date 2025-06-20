@@ -10,50 +10,36 @@ import { TrendingTableStore } from "@/store/TrendingTableStore";
 import FilteringModal from "./TrendingFilteringModal";
 import { X } from "lucide-react";
 import { Button } from "../../ui/button";
+import { TrendingTimeInteval } from "@/trade-functions/types";
 
 type SortableField =
   | "dateTime"
   | "liquidity"
   | "marketCap"
+  | "vol1m"
+  | "vol5m"
+  | "vol1h"
+  | "vol6h"
+  | "vol24h"
   | "holders"
   | "price"
-  // for volumes
-  | "txvol1m"
-  | "txvol5m"
-  | "txvol1h"
-  | "txvol6h"
-  | "txvol24h"
   // Add more fields as needed
   | "percent1m"
   | "percent5m"
   | "percent1h"
   | "percent6h"
-  | "percent24h"
-  // percentage change on price I think
-  | "priceChange1min"
-  | "priceChange5min"
-  | "priceChange1h"
-  | "priceChange6h"
-  | "priceChange24h";
+  | "percent24h";
 
 type filterType =
   // | "token"
   | "dateTime"
   | "liquidity"
   | "marketCap"
-  // for volumes
-  | "txvol1m"
-  | "txvol5m"
-  | "txvol1h"
-  | "txvol6h"
-  | "txvol24h"
-  // for percentage change
-  | "priceChange1min"
-  | "priceChange5min"
-  | "priceChange1h"
-  | "priceChange6h"
-  | "priceChange24h"
-  | "transactions24h"
+  | "vol1m"
+  | "vol5m"
+  | "vol1h"
+  | "vol6h"
+  | "vol24h"
   | "holders"
   | "price";
 
@@ -73,6 +59,7 @@ function TrendingTableHeader({
 
   const setIsModalOpen = TrendingTableStore((s) => s.setIsModalOpen);
   const setSelectedFilter = TrendingTableStore((s) => s.setSelectedFilter);
+  const timeIntervale = TrendingTableStore((s) => s.timeIntervale);
 
   const filteringStringObject = TrendingTableStore(
     (s) => s.filteringStringObject
@@ -100,21 +87,24 @@ function TrendingTableHeader({
     [filteringStringObject]
   );
 
-  const volumes = [
-    { name: "Vol 1m", value: "txvol1m" },
-    { name: "Vol 5m", value: "txvol5m" },
-    { name: "Vol 1h", value: "txvol1h" },
-    { name: "Vol 6h", value: "txvol6h" },
-    { name: "Vol 24h", value: "txvol24h" },
-  ];
+  function getShortTimeInterval(timeInterval: TrendingTimeInteval): string {
+    switch (timeInterval) {
+      case "1 Minute Ago":
+        return "1m";
+      case "5 Minutes Ago":
+        return "5m";
+      case "1 Hour Ago":
+        return "1h";
+      case "6 Hours Ago":
+        return "6h";
+      case "24 Hours Ago":
+        return "24h";
+      default:
+        return ""; // fallback in case of unexpected value
+    }
+  }
 
-  const pricePercentages = [
-    { name: "1m%", value: "priceChange1min" },
-    { name: "5m%", value: "priceChange5min" },
-    { name: "1h%", value: "priceChange1h" },
-    { name: "6h%", value: "priceChange6h" },
-    { name: "24h%", value: "priceChange24h" },
-  ];
+  const shortInterval = getShortTimeInterval(timeIntervale);
 
   return (
     <>
@@ -327,153 +317,19 @@ function TrendingTableHeader({
               </button>
             </div>
           </TableHead>
-          {/* all volumes and dataRate: percentage values */}
-          {volumes.map((i, idx) => {
-            return (
-              <TableHead
-                key={idx}
-                className="text-center cursor-pointer select-none"
-              >
-                <div className="flex items-center justify-center gap-2 ">
-                  <button
-                    className="flex items-center justify-center gap-2 "
-                    onClick={() => toggleSort(i.value as SortableField)}
-                  >
-                    {i.name}{" "}
-                    {sortField === i.value ? (
-                      sortDirection === "none" ? (
-                        <Image
-                          src={sortingIcon}
-                          alt="No sorting"
-                          className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                        />
-                      ) : sortDirection === "asc" ? (
-                        <Image
-                          src={sortingUpIcon}
-                          alt="Sort ascending"
-                          className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                        />
-                      ) : (
-                        <Image
-                          src={sortingDownIcon}
-                          alt="Sort descending"
-                          className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                        />
-                      )
-                    ) : (
-                      <Image
-                        src={sortingIcon}
-                        alt="No sorting"
-                        className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                      />
-                    )}
-                  </button>
-                  <button
-                    className="relative"
-                    onClick={(e) =>
-                      isFilterActive(i.value as filterType)
-                        ? handleRemoveFilter(i.value as filterType, e)
-                        : handleFilterClick(i.value as filterType, e)
-                    }
-                  >
-                    {isFilterActive(i.value as filterType) && (
-                      <Button
-                        className="absolute !h-[unset] top-[-10px] right-[-10px] p-0 bg-transparent border-none cursor-pointer"
-                        type="button"
-                      >
-                        <X className=" text-red-500" />
-                      </Button>
-                    )}
-
-                    <Image
-                      src={FunnelImage}
-                      alt="Filter"
-                      className="min-w-[clamp(10px,2vw,12px)]"
-                    />
-                  </button>
-                </div>
-              </TableHead>
-            );
-          })}
-
-          {pricePercentages.map((i, idx) => {
-            return (
-              <TableHead
-                key={idx}
-                className="text-center cursor-pointer select-none"
-              >
-                <div className="flex items-center justify-center gap-2 ">
-                  <button
-                    className="flex items-center justify-center gap-2 "
-                    onClick={() => toggleSort(i.value as SortableField)}
-                  >
-                    {i.name}{" "}
-                    {sortField === i.value ? (
-                      sortDirection === "none" ? (
-                        <Image
-                          src={sortingIcon}
-                          alt="No sorting"
-                          className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                        />
-                      ) : sortDirection === "asc" ? (
-                        <Image
-                          src={sortingUpIcon}
-                          alt="Sort ascending"
-                          className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                        />
-                      ) : (
-                        <Image
-                          src={sortingDownIcon}
-                          alt="Sort descending"
-                          className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                        />
-                      )
-                    ) : (
-                      <Image
-                        src={sortingIcon}
-                        alt="No sorting"
-                        className=" w-[clamp(5px,6px,6px)] h-[clamp(10px,12px,12px)]  "
-                      />
-                    )}
-                  </button>
-                  <button
-                    className="relative"
-                    onClick={(e) =>
-                      isFilterActive(i.value as filterType)
-                        ? handleRemoveFilter(i.value as filterType, e)
-                        : handleFilterClick(i.value as filterType, e)
-                    }
-                  >
-                    {isFilterActive(i.value as filterType) && (
-                      <Button
-                        className="absolute !h-[unset] top-[-10px] right-[-10px] p-0 bg-transparent border-none cursor-pointer"
-                        type="button"
-                      >
-                        <X className=" text-red-500" />
-                      </Button>
-                    )}
-
-                    <Image
-                      src={FunnelImage}
-                      alt="Filter"
-                      className="min-w-[clamp(10px,2vw,12px)]"
-                    />
-                  </button>
-                </div>
-              </TableHead>
-            );
-          })}
-
-          {/* all volumes and dataRate: percentage values */}
+          {/* slkdkflsjdf */}
 
           <TableHead className="text-center cursor-pointer select-none">
             <div className="flex items-center justify-center gap-2">
               <button
                 className="flex items-center justify-center gap-2"
-                onClick={() => toggleSort(`transactions24h` as SortableField)}
+                onClick={() =>
+                  toggleSort(`transactions${shortInterval}` as SortableField)
+                }
               >
-                TXs 24h
-                {sortField === (`transactions24h` as SortableField) ? (
+                {shortInterval} TXs {/* sorting icon logic stays the same */}
+                {sortField ===
+                (`transactions${shortInterval}` as SortableField) ? (
                   sortDirection === "none" ? (
                     <Image
                       src={sortingIcon}
@@ -504,12 +360,20 @@ function TrendingTableHeader({
               <button
                 className="relative"
                 onClick={(e) =>
-                  isFilterActive(`transactions24h` as filterType)
-                    ? handleRemoveFilter(`transactions24h` as filterType, e)
-                    : handleFilterClick(`transactions24h` as filterType, e)
+                  isFilterActive(`transactions${shortInterval}` as filterType)
+                    ? handleRemoveFilter(
+                        `transactions${shortInterval}` as filterType,
+                        e
+                      )
+                    : handleFilterClick(
+                        `transactions${shortInterval}` as filterType,
+                        e
+                      )
                 }
               >
-                {isFilterActive(`transactions24h` as filterType) && (
+                {isFilterActive(
+                  `transactions${shortInterval}` as filterType
+                ) && (
                   <Button
                     className="absolute !h-[unset] top-[-10px] right-[-10px] p-0 bg-transparent border-none cursor-pointer"
                     type="button"
@@ -525,7 +389,6 @@ function TrendingTableHeader({
               </button>
             </div>
           </TableHead>
-          {/*
           <TableHead className="text-center cursor-pointer select-none">
             <div className="flex items-center justify-center gap-2">
               <button
@@ -534,7 +397,7 @@ function TrendingTableHeader({
                   toggleSort(`percent${shortInterval}` as SortableField)
                 }
               >
-                Vol {shortInterval}
+                Vol {shortInterval} {/* sorting icon logic stays the same */}
                 {sortField === (`percent${shortInterval}` as SortableField) ? (
                   sortDirection === "none" ? (
                     <Image
@@ -586,7 +449,7 @@ function TrendingTableHeader({
                 />
               </button>
             </div>
-          </TableHead> */}
+          </TableHead>
 
           <TableHead className="text-center cursor-pointer select-none">
             <div className="flex items-center justify-center gap-2 ">

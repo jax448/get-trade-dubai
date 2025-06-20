@@ -6,15 +6,15 @@ const metaData = {
   metadataBase: new URL("https://get-trade-app.vercel.app"),
   keywords: [""],
   title: {
-    template: "%s | GetTrade",
-    default: "GetTrade",
+    template: "%s | Get.Trade",
+    default: "Get.Trade",
   },
   openGraph: {
     title: {
-      template: "%s | GetTrade",
-      default: "GetTrade",
+      template: "%s | Get.Trade",
+      default: "Get.Trade",
     },
-    description: "GetTrade",
+    description: "Get.Trade",
     images: [
       {
         url: faviIconsite.src, // Replace with your actual image URL
@@ -28,12 +28,12 @@ const metaData = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GetTrade",
-    description: "GetTrade",
+    title: "Get.Trade",
+    description: "Get.Trade",
     images: [faviIconsite.src], // Replace with your image URL
     creator: "@gettrade", // Optional: your Twitter handle
   },
-  description: "GetTrade",
+  description: "Get Trade",
   icons: {
     icon: [
       {
