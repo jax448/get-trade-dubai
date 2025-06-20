@@ -526,7 +526,7 @@ function WithdrawForm() {
             type="submit"
             disabled={isSubmitting || isPending || isLoading || isDepositing}
           >
-            Withdraw
+            Send
             {isSubmitting || isPending || isLoading || isDepositing ? (
               <CustomLoader size={"md"} variant={"dark"} />
             ) : (
