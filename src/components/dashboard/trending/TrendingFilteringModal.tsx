@@ -16,18 +16,15 @@ type filterType =
   | "dateTime"
   | "liquidity"
   | "marketCap"
-  // for volumes
-  | "txvol1m"
-  | "txvol5m"
-  | "txvol1h"
-  | "txvol6h"
-  | "txvol24h"
-  // for percentage change
-  | "priceChange1min"
-  | "priceChange5min"
-  | "priceChange1h"
-  | "priceChange6h"
-  | "priceChange24h"
+  | "vol1m"
+  | "vol5m"
+  | "vol1h"
+  | "vol6h"
+  | "vol24h"
+  | "transactions1m"
+  | "transactions5m"
+  | "transactions1h"
+  | "transactions6h"
   | "transactions24h"
   | "holders"
   | "price";
@@ -115,23 +112,16 @@ function TrendingFilteringModal() {
         return "Liq";
       case "marketCap":
         return "Market Cap";
-      case "txvol1m":
-      case "txvol1h":
-      case "txvol5m":
-      case "txvol6h":
-      case "txvol24h":
+      case "vol1m":
+      case "vol1h":
+      case "vol5m":
+      case "vol6h":
+      case "vol24h":
         return "Vol";
-      case "priceChange1min":
-      case "priceChange5min":
-      case "priceChange1h":
-      case "priceChange6h":
-      case "priceChange24h":
-        return "Price Change";
-      case "txvol1h":
-      case "txvol5m":
-      case "txvol6h":
-      case "txvol24h":
-        return "Vol";
+      case "transactions1m":
+      case "transactions5m":
+      case "transactions1h":
+      case "transactions6h":
       case "transactions24h":
         return "TXs";
       case "holders":

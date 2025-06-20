@@ -9,23 +9,16 @@ type filterType =
   | "dateTime"
   | "liquidity"
   | "marketCap"
-  | "txvol1m"
-  | "txvol5m"
-  | "txvol1h"
-  | "txvol6h"
-  | "txvol24h"
+  | "vol1m"
+  | "vol5m"
+  | "vol1h"
+  | "vol6h"
+  | "vol24h"
   | "transactions1m"
   | "transactions5m"
   | "transactions1h"
   | "transactions6h"
   | "transactions24h"
-  // percentage change
-  | "priceChange1min"
-  | "priceChange5min"
-  | "priceChange1h"
-  | "priceChange6h"
-  | "priceChange24h"
-  // percentage change
   | "holders"
   | "price";
 
@@ -66,7 +59,7 @@ export const TrendingTableStore = create<TrendingTableStoreType>()((set) => ({
   setTitle: (title) => set({ title }),
 
   //trending table time interval
-  timeIntervale: "24 Hours Ago",
+  timeIntervale: "1 Minute Ago",
   setTimeIntervale: (timeIntervale) => set({ timeIntervale }),
   //for new pairs table filter logic
 
@@ -80,21 +73,16 @@ export const TrendingTableStore = create<TrendingTableStoreType>()((set) => ({
     dateTime: { min: null, max: null },
     liquidity: { min: null, max: null },
     marketCap: { min: null, max: null },
-    txvol1m: { min: null, max: null },
-    txvol5m: { min: null, max: null },
-    txvol1h: { min: null, max: null },
-    txvol6h: { min: null, max: null },
-    txvol24h: { min: null, max: null },
+    vol1m: { min: null, max: null },
+    vol5m: { min: null, max: null },
+    vol1h: { min: null, max: null },
+    vol6h: { min: null, max: null },
+    vol24h: { min: null, max: null },
     transactions1m: { min: null, max: null },
     transactions5m: { min: null, max: null },
     transactions1h: { min: null, max: null },
     transactions6h: { min: null, max: null },
     transactions24h: { min: null, max: null },
-    priceChange1min: { min: null, max: null },
-    priceChange5min: { min: null, max: null },
-    priceChange1h: { min: null, max: null },
-    priceChange6h: { min: null, max: null },
-    priceChange24h: { min: null, max: null },
     holders: { min: null, max: null },
     price: { min: null, max: null },
   },
@@ -121,21 +109,16 @@ export const TrendingTableStore = create<TrendingTableStoreType>()((set) => ({
         dateTime: { min: null, max: null },
         liquidity: { min: null, max: null },
         marketCap: { min: null, max: null },
-        txvol1m: { min: null, max: null },
-        txvol5m: { min: null, max: null },
-        txvol1h: { min: null, max: null },
-        txvol6h: { min: null, max: null },
-        txvol24h: { min: null, max: null },
+        vol1m: { min: null, max: null },
+        vol5m: { min: null, max: null },
+        vol1h: { min: null, max: null },
+        vol6h: { min: null, max: null },
+        vol24h: { min: null, max: null },
         transactions1m: { min: null, max: null },
         transactions5m: { min: null, max: null },
         transactions1h: { min: null, max: null },
         transactions6h: { min: null, max: null },
         transactions24h: { min: null, max: null },
-        priceChange1min: { min: null, max: null },
-        priceChange5min: { min: null, max: null },
-        priceChange1h: { min: null, max: null },
-        priceChange6h: { min: null, max: null },
-        priceChange24h: { min: null, max: null },
         holders: { min: null, max: null },
         price: { min: null, max: null },
       },

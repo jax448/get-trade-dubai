@@ -227,7 +227,7 @@ const MainTableQuickBuyButton = ({
       className="font-semibold 
                 text-[clamp(10px,1.4vw,14px)] 
                 leading-[clamp(14px,1.6vw,100%)] 
-                tracking-[0%] bg-transparent block px-[10px] mx-auto lg:w-[clamp(60px,12vw,100px)] w-full "
+                tracking-[0%] bg-transparent block px-[10px] mx-auto w-full"
       onClick={handleClick}
       disabled={isSubmitting}
     >

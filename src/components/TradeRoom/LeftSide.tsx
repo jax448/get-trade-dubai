@@ -1,5 +1,5 @@
 "use client";
-import { Search, Star } from "lucide-react";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import star from "@public/pics/EmptyStarImage.png";
@@ -96,7 +96,7 @@ function LeftSide() {
       text: `${process.env.NEXT_PUBLIC_FRONT_END_URL}trade/${tokenAddress}`,
       title: "Check out this token!",
       url: `${process.env.NEXT_PUBLIC_FRONT_END_URL}trade/${tokenAddress}`,
-      description: `Explore this  token on GetTrade.Token: ${tokenAddress}`,
+      description: `Explore this  token on Get.Trade.Token: ${tokenAddress}`,
     });
   };
 
@@ -106,9 +106,6 @@ function LeftSide() {
       crypto.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
       crypto.symbol.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
-
-  const isWatchlistEmpty =
-    !isLoading && (!filteredData || filteredData.length === 0);
 
   return (
     <div className=" xl:order-1 order-3  w-full bg-[#F1F2FF0D] border overflow-y-auto h-[calc(100vh-85px)] 2xl:max-w-[271px] max-w-[240px]  border-[#FFFFFF14] xl:flex hidden flex-col">
@@ -138,130 +135,110 @@ function LeftSide() {
           </div>
         </div>
         <div className="overflow-y-auto mt-[clamp(1rem,3vh,2rem)] flex-1">
-          {isLoading ? (
-            // Show skeletons while loading
-            Array.from({ length: 8 }).map((_, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between px-[clamp(0.5rem,2vw,1rem)] py-[clamp(4px,1vh,8px)] border-b border-gray-800"
-              >
-                <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
-                  <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
-                    <Skeleton className="w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)] rounded" />
-                    <Skeleton className="w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)] rounded" />
-                  </div>
-                  <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
-                    <Skeleton className="w-[clamp(26px,3vw,47px)] h-[clamp(26px,3vw,47px)] rounded-full relative" />
-                    <div className="flex flex-col gap-[clamp(4px,1vw,8px)]">
-                      <Skeleton className="h-[clamp(10px,1vw,14px)] w-[80px]" />
-                      <Skeleton className="h-[clamp(8px,0.9vw,12px)] w-[40px]" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : isWatchlistEmpty ? (
-            <div className="flex flex-col items-center justify-center px-4 py-8 text-center">
-              <div className="mb-3">
-                <Star size={40} color="#898989" />
-              </div>
-              <p className="text-[#898989] font-medium text-[clamp(10px,1vw,12px)] mb-1">
-                {!key
-                  ? "Please login to view your watchlist"
-                  : searchTerm
-                  ? "No matching tokens found"
-                  : "Your watchlist is empty"}
-              </p>
-              <p className="text-[#898989] text-[clamp(8px,0.9vw,10px)]">
-                {!key
-                  ? "Connect your wallet to start tracking tokens"
-                  : searchTerm
-                  ? "Try a different search term"
-                  : "Add tokens to track them here"}
-              </p>
-            </div>
-          ) : (
-            filteredData
-              ?.sort((a, b) => {
-                const dateA = a.dateTime ? new Date(a.dateTime).getTime() : 0;
-                const dateB = b.dateTime ? new Date(b.dateTime).getTime() : 0;
-                return dateA - dateB;
-              })
-              ?.map((crypto) => (
+          {isLoading
+            ? // Show skeletons while loading
+              Array.from({ length: 8 }).map((_, idx) => (
                 <div
-                  onClick={() => router.push(`/trade/${crypto.tokenAddress}`)}
-                  key={crypto.tokenAddress}
-                  className="flex items-center justify-between px-[clamp(0.5rem,2vw,1rem)] py-[clamp(4px,1vh,8px)] hover:bg-gray-800 border-b border-gray-800 cursor-pointer "
+                  key={idx}
+                  className="flex items-center justify-between px-[clamp(0.5rem,2vw,1rem)] py-[clamp(4px,1vh,8px)] border-b border-gray-800"
                 >
                   <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
                     <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
-                      <button
-                        onClick={(e: React.MouseEvent) =>
-                          handleWatchList(crypto.tokenAddress, e)
-                        }
-                      >
-                        <Image
-                          src={crypto.name ? yellowFillStar : FillStar}
-                          alt=""
-                          width={20}
-                          height={20}
-                          className="  min-w-[clamp(12px,1.5vw,20px)] w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)]"
-                        />
-                      </button>
-                      <button
-                        onClick={(e: React.MouseEvent) => {
-                          e.stopPropagation();
-                          HandleShare(e, crypto.tokenAddress);
-                        }}
-                      >
-                        <Image
-                          src={Export}
-                          alt=""
-                          width={20}
-                          height={20}
-                          className="w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)]"
-                        />
-                      </button>
+                      <Skeleton className="w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)] rounded" />
+                      <Skeleton className="w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)] rounded" />
                     </div>
                     <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
-                      <div className="relative w-[clamp(26px,3vw,47px)] min-w-[clamp(26px,3vw,47px)] h-[clamp(26px,3vw,47px)]">
-                        <Image
-                          src={crypto.image ? crypto.image : Token}
-                          fill
-                          alt=" "
-                          className=" rounded-full"
-                        />
-                        <Image
-                          src={Sol}
-                          width={14}
-                          height={14}
-                          className="absolute bottom-0 right-0 w-[clamp(10px,1vw,14px)] h-[clamp(10px,1vw,14px)]"
-                          alt=""
-                        />
-                      </div>
+                      <Skeleton className="w-[clamp(26px,3vw,47px)] h-[clamp(26px,3vw,47px)] rounded-full relative" />
                       <div className="flex flex-col gap-[clamp(4px,1vw,8px)]">
-                        <span className=" max-w-[6ch] truncate font-semibold text-[clamp(10px,1vw,14px)] leading-[100%] tracking-[0%] white">
-                          {crypto.symbol}
-                        </span>
-                        <span className="max-w-[6ch] truncate text-[#898989] font-bold text-[clamp(8px,0.9vw,10px)] leading-[100%] tracking-[0%]">
-                          {crypto.name}
-                        </span>
+                        <Skeleton className="h-[clamp(10px,1vw,14px)] w-[80px]" />
+                        <Skeleton className="h-[clamp(8px,0.9vw,12px)] w-[40px]" />
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-[clamp(4px,1vw,8px)] items-end font-semibold text-[clamp(8px,1vw,10px)] leading-[100%] tracking-[0%] text-right">
-                    <span
-                      className={`${
-                        crypto.marketCap ? "text-green-500" : "text-red-500"
-                      }`}
-                    >
-                      {formatNumber(crypto.marketCap)}
-                    </span>
-                    <span className="">{formatSmallNumber(crypto.price)}</span>
                   </div>
                 </div>
               ))
-          )}
+            : filteredData
+                ?.sort((a, b) => {
+                  const dateA = a.dateTime ? new Date(a.dateTime).getTime() : 0;
+                  const dateB = b.dateTime ? new Date(b.dateTime).getTime() : 0;
+                  return dateA - dateB;
+                })
+                ?.map((crypto) => (
+                  <div
+                    onClick={() => router.push(`/trade/${crypto.tokenAddress}`)}
+                    key={crypto.tokenAddress}
+                    className="flex items-center justify-between px-[clamp(0.5rem,2vw,1rem)] py-[clamp(4px,1vh,8px)] hover:bg-gray-800 border-b border-gray-800 cursor-pointer "
+                  >
+                    <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
+                      <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
+                        <button
+                          onClick={(e: React.MouseEvent) =>
+                            handleWatchList(crypto.tokenAddress, e)
+                          }
+                        >
+                          <Image
+                            src={crypto.name ? yellowFillStar : FillStar}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="  min-w-[clamp(12px,1.5vw,20px)] w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)]"
+                          />
+                        </button>
+                        <button
+                          onClick={(e: React.MouseEvent) => {
+                            e.stopPropagation();
+                            HandleShare(e, crypto.tokenAddress);
+                          }}
+                        >
+                          <Image
+                            src={Export}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="w-[clamp(12px,1.5vw,20px)] h-[clamp(12px,1.5vw,20px)]"
+                          />
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-[clamp(4px,1vw,8px)]">
+                        <div className="relative w-[clamp(26px,3vw,47px)] min-w-[clamp(26px,3vw,47px)] h-[clamp(26px,3vw,47px)]">
+                          <Image
+                            src={crypto.image ? crypto.image : Token}
+                            fill
+                            alt=" "
+                            className=" rounded-full"
+                          />
+                          <Image
+                            src={Sol}
+                            width={14}
+                            height={14}
+                            className="absolute bottom-0 right-0 w-[clamp(10px,1vw,14px)] h-[clamp(10px,1vw,14px)]"
+                            alt=""
+                          />
+                        </div>
+                        <div className="flex flex-col gap-[clamp(4px,1vw,8px)]">
+                          <span className=" max-w-[6ch] truncate font-semibold text-[clamp(10px,1vw,14px)] leading-[100%] tracking-[0%] white">
+                            {crypto.symbol}
+                          </span>
+                          <span className="max-w-[6ch] truncate text-[#898989] font-bold text-[clamp(8px,0.9vw,10px)] leading-[100%] tracking-[0%]">
+                            {crypto.name}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-[clamp(4px,1vw,8px)] items-end font-semibold text-[clamp(8px,1vw,10px)] leading-[100%] tracking-[0%] text-right">
+                      <span
+                        className={`${
+                          crypto.marketCap ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {formatNumber(crypto.marketCap)}
+                      </span>
+                      <span className="">
+                        {formatSmallNumber(crypto.price)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
         </div>
       </div>
     </div>

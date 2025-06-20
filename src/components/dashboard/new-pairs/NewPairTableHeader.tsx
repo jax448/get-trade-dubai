@@ -24,11 +24,12 @@ type SortableField =
   | "holders"
   | "price"
   // Add more fields as needed
-  | "percent1m"
-  | "percent5m"
   | "percent1h"
-  | "percent6h"
-  | "percent24h";
+  | "percent2h"
+  | "percent4h"
+  | "percent8h"
+  | "percent24h"
+  | "percent30m";
 
 type filterType =
   // | "token"
@@ -303,9 +304,9 @@ function NewPairTableHeader({
             <div className="flex items-center justify-center gap-2 ">
               <button
                 className="flex items-center justify-center gap-2 "
-                onClick={() => toggleSort("percent1m")}
+                onClick={() => toggleSort("percent30m")}
               >
-                Vol 1m{" "}
+                Vol 30m{" "}
                 {sortField === "percent30m" ? (
                   sortDirection === "none" ? (
                     <Image
@@ -423,10 +424,10 @@ function NewPairTableHeader({
             <div className="flex items-center justify-center gap-2 ">
               <button
                 className="flex items-center justify-center gap-2 "
-                onClick={() => toggleSort("percent1h")}
+                onClick={() => toggleSort("percent2h")}
               >
                 Vol 2 H{" "}
-                {sortField === "percent1h" ? (
+                {sortField === "percent2h" ? (
                   sortDirection === "none" ? (
                     <Image
                       src={sortingIcon}
@@ -483,10 +484,10 @@ function NewPairTableHeader({
             <div className="flex items-center justify-center gap-2 ">
               <button
                 className="flex items-center justify-center gap-2 "
-                onClick={() => toggleSort("percent1m")}
+                onClick={() => toggleSort("percent4h")}
               >
                 Vol 4 H{" "}
-                {sortField === "percent1m" ? (
+                {sortField === "percent4h" ? (
                   sortDirection === "none" ? (
                     <Image
                       src={sortingIcon}
@@ -543,10 +544,10 @@ function NewPairTableHeader({
             <div className="flex items-center justify-center gap-2 ">
               <button
                 className="flex items-center justify-center gap-2 "
-                onClick={() => toggleSort("percent6h")}
+                onClick={() => toggleSort("percent8h")}
               >
                 Vol 8 H{" "}
-                {sortField === "percent6h" ? (
+                {sortField === "percent8h" ? (
                   sortDirection === "none" ? (
                     <Image
                       src={sortingIcon}

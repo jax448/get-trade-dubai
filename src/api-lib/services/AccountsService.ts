@@ -11,6 +11,7 @@ import type {
 import { apiClient } from "../apiClient";
 import type {
   SwapData,
+  TokenInfo,
   TokenMetrics,
   TokenSecurityInfo,
   TokenTopHoldersType,
@@ -18,9 +19,8 @@ import type {
   TokenTopTraderstype,
   SearchTokenData,
   marketCapType,
-  // TrendingTimeInteval,
+  TrendingTimeInteval,
   TrendingTokenInfotype,
-  NewPairsTableDataType,
 } from "@/trade-functions/types";
 
 export const AccountsService = {
@@ -231,7 +231,7 @@ export const AccountsService = {
   async getTokenData(key: string, urlstring: string) {
     return apiClient.get<{
       isSuccessfull: boolean;
-      data: NewPairsTableDataType[];
+      data: TokenInfo[];
     }>(`Public/GetTokenData${urlstring}`, {
       cache: "no-cache",
       headers: {
@@ -240,11 +240,15 @@ export const AccountsService = {
     });
   },
 
-  async getTrendingTokenData(key: string, urlstring: string) {
+  async getTrendingTokenData(
+    key: string,
+    urlstring: string,
+    timeIntervale: TrendingTimeInteval = "1 Hour Ago"
+  ) {
     return apiClient.get<{
       isSuccessfull: boolean;
       data: TrendingTokenInfotype[];
-    }>(`Public/GetTrendingTokens?${urlstring}`, {
+    }>(`Public/GetTrendingTokens?TimeInterval=${timeIntervale}&${urlstring}`, {
       cache: "no-cache",
       headers: {
         "API-KEY": `${key}`,

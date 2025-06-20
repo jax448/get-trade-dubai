@@ -32,7 +32,7 @@ const DashBoardTableImages = memo(
           text: `${process.env.NEXT_PUBLIC_FRONT_END_URL}trade/${tokenAddress}`,
           title: "Check out this token!",
           url: `${process.env.NEXT_PUBLIC_FRONT_END_URL}trade/${tokenAddress}`,
-          description: `Explore this  token on GetTrade.Token: ${tokenAddress}`,
+          description: `Explore this  token on Get.Trade.Token: ${tokenAddress}`,
         });
         toggleShareModal();
       },
