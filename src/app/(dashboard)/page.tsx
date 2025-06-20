@@ -1,8 +1,8 @@
 import Dashboard2Header from "@/components/dashboard/DashboardSecondHeader";
 import dynamic from "next/dynamic";
 
-const TrendingTable = dynamic(
-  () => import("@/components/dashboard/trending/TrendingTable"),
+const NewPairsTable = dynamic(
+  () => import("@/components/dashboard/new-pairs/NewPairTable"),
   {
     ssr: false,
   }
@@ -12,7 +12,7 @@ function Home() {
   return (
     <>
       <Dashboard2Header />
-      <TrendingTable />
+      <NewPairsTable />
     </>
   );
 }

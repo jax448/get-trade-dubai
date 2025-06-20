@@ -82,12 +82,12 @@ function DashboardSecondHeader() {
                   "border-[#DC1FFF66] border !text-[#CDCDCD]"
               )}
               onClick={() => {
-                setTitle("Trending");
+                setTitle("New Pairs");
               }}
             >
-              Trending
+              New Pairs
             </Link>
-            <Link
+            {/* <Link
               href={"/new-pairs"}
               className={cn(
                 " bg-transparent flex items-center justify-center w-[clamp(60px,8vw,109px)] px-[0.4rem] h-[clamp(30px,6vw,39px)]  text-[#CDCDCDB2] !rounded-[6px] border border-transparent font-medium text-[clamp(10px,1.8vw,16px)] leading-[100%] tracking-[0%] ",
@@ -99,9 +99,9 @@ function DashboardSecondHeader() {
               }}
             >
               New Pairs
-            </Link>
+            </Link> */}
           </div>
-          <div className=" md:block hidden  ">
+          <div className="  hidden  ">
             <TimeIntervalButtons />
           </div>
           {/* <div className="flex items-center space-x-[clamp(0.1rem,0.8vw,0.5rem)]">
