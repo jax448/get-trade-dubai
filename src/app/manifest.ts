@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Get.Trade",
-    short_name: "Get.Trade",
+    name: "GetTrade",
+    short_name: "GetTrade",
     // description: "A Progressive Web App built with Next.js",
     start_url: "/",
     display: "standalone",

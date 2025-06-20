@@ -25,7 +25,7 @@ function TradeHeader() {
           >
             <GetTradeLogo Logo={Logo} />
             <span className="font-bold text-nowrap text-[clamp(16px,4vw,26px)] leading-[100%] tracking-[0%]">
-              Get. Trade
+              GetTrade
             </span>
           </Link>
         </div>
