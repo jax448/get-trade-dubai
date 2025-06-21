@@ -80,12 +80,12 @@ const getProvider = (): PhantomProvider | null => {
         bs58.encode(dappKeypair.secretKey)
       );
       const redirectLink = encodeURIComponent(
-        "https://get-trade-app.vercel.app/phantom-connect/connect"
+        "https://gettrade.vercel.app/phantom-connect/connect"
       );
       // const redirectLink = encodeURIComponent("https://cf84-182-187-140-54.ngrok-free.app/phantom-connect/connect");
       const dappEncPubKey = bs58.encode(dappKeypair.publicKey);
 
-      const url = `https://phantom.app/ul/v1/connect?app_url=https://get-trade-app.vercel.app&redirect_link=${redirectLink}&dapp_encryption_public_key=${dappEncPubKey}`;
+      const url = `https://phantom.app/ul/v1/connect?app_url=https://gettrade.vercel.app&redirect_link=${redirectLink}&dapp_encryption_public_key=${dappEncPubKey}`;
       // const url = `https://phantom.app/ul/v1/connect?app_url=https://https://cf84-182-187-140-54.ngrok-free.app&redirect_link=${redirectLink}&dapp_encryption_public_key=${dappEncPubKey}`;
       setTimeout(() => {
         const stored = localStorage.getItem("dapp-enc-private-key");
@@ -301,7 +301,7 @@ export const useSolanaAuthStore = create<SolanaAuthState>()(
       },
     }),
     {
-      name: "getTrade-auth",
+      name: "getTrade-dubai-auth",
     }
   )
 );

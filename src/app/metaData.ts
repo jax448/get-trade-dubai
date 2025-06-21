@@ -3,7 +3,7 @@ import faviIconsite from "@public/icons/favicon.ico";
 import faviIconShort from "@public/icons/icon1.png";
 
 const metaData = {
-  metadataBase: new URL("https://get-trade-app.vercel.app"),
+  metadataBase: new URL("https://gettrade.vercel.app"),
   keywords: [""],
   title: {
     template: "%s | GetTrade",
@@ -23,7 +23,7 @@ const metaData = {
         alt: "",
       },
     ],
-    url: "https://get-trade-app.vercel.app", // Replace with your actual URL
+    url: "https://gettrade.vercel.app", // Replace with your actual URL
     type: "website",
   },
   twitter: {
