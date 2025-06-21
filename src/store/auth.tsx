@@ -301,7 +301,7 @@ export const useSolanaAuthStore = create<SolanaAuthState>()(
       },
     }),
     {
-      name: "getTrade-dubai-auth",
+      name: "getTrade-auth",
     }
   )
 );
