@@ -185,7 +185,7 @@ function WithdrawForm() {
         });
         const base64Tx = serialized.toString("base64");
         const redirect = encodeURIComponent(
-          "https://get-trade-app.vercel.app/phantom-connect/tx-handler"
+          "https://gettrade.vercel.app/phantom-connect/tx-handler"
         );
 
         localStorage.setItem(
@@ -199,7 +199,7 @@ function WithdrawForm() {
           })
         );
 
-        const url = `https://phantom.app/ul/v1/signAndSendTransaction?app_url=https://get-trade-app.vercel.app&redirect_link=${redirect}&transaction=${base64Tx}`;
+        const url = `https://phantom.app/ul/v1/signAndSendTransaction?app_url=https://gettrade.vercel.app&redirect_link=${redirect}&transaction=${base64Tx}`;
         window.location.href = url;
 
         return undefined;

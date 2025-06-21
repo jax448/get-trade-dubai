@@ -46,7 +46,7 @@ export const useQuickBuyStore = create<QuickBuyState>()(
       },
     }),
     {
-      name: "get-trade-QuickBuy",
+      name: "get-trade-dubai-QuickBuy",
     }
   )
 );
