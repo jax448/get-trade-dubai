@@ -1,7 +1,7 @@
 "use client";
 import { AccountsService } from "@/api-lib/services/AccountsService";
 import { useSolanaAuthStore } from "@/store/auth";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Component1 from "./Component1";
 import Component2 from "./Component2";
 // import Component3 from "./Component3";
@@ -21,30 +21,30 @@ function Page() {
   const setStep2DataFunc = useSolanaAuthStore().setStep2DataFunc;
   const removeStep2Data = useSolanaAuthStore().removeStep2Data;
   const key = useSolanaAuthStore().key;
-  const isfirstTimeLogin = useSolanaAuthStore().isfirstTimeLogin;
+  // const isfirstTimeLogin = useSolanaAuthStore().isfirstTimeLogin;
 
-  useEffect(() => {
-    if (!isfirstTimeLogin) {
-      router.push("/");
-      return;
-    }
-    return;
-  }, [isfirstTimeLogin, router]);
+  // useEffect(() => {
+  //   if (!isfirstTimeLogin) {
+  //     router.push("/");
+  //     return;
+  //   }
+  //   return;
+  // }, [isfirstTimeLogin, router]);
 
-  useEffect(() => {
-    if (isfirstTimeLogin) {
-      window.addEventListener("beforeunload", (event) => {
-        event.preventDefault();
-        event.returnValue = ""; // This is required for Chrome to show the confirmation dialog
-      });
-    }
-    return () => {
-      window.removeEventListener("beforeunload", (event) => {
-        event.preventDefault();
-        event.returnValue = ""; // This is required for Chrome to show the confirmation dialog
-      });
-    };
-  }, [isfirstTimeLogin, steps]);
+  // useEffect(() => {
+  //   if (isfirstTimeLogin) {
+  //     window.addEventListener("beforeunload", (event) => {
+  //       event.preventDefault();
+  //       event.returnValue = ""; // This is required for Chrome to show the confirmation dialog
+  //     });
+  //   }
+  //   return () => {
+  //     window.removeEventListener("beforeunload", (event) => {
+  //       event.preventDefault();
+  //       event.returnValue = ""; // This is required for Chrome to show the confirmation dialog
+  //     });
+  //   };
+  // }, [isfirstTimeLogin, steps]);
 
   const handlGenerateWallet = async () => {
     setIsLoading(true);
